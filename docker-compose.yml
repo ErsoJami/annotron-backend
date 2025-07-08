@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: tasks
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: app:latest
+    ports:
+      - "5353:5353"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tasks-db
+      - SPRING_DATASOURCE_USERNAME=admin-db
+      - SPRING_DATASOURCE_PASSWORD=cfkdg985hgurgh
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: "tasks-db"
+      POSTGRES_USER: "admin-db"
+      POSTGRES_PASSWORD: "cfkdg985hgurgh"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ../2. Init Database:/docker-entrypoint-initdb.d
+      - db-data-tasks:/var/lib/postgresql/data
+    ports:
+      - "5350:5432"
+  
+  adminer:
+    image: adminer
+    
+    ports:
+      - "53958:8080"
+    depends_on:
+      - db
+
+
+volumes:
+  db-data-tasks:

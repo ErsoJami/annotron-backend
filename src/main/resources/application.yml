@@ -1,0 +1,32 @@
+server:
+  port: 5353
+  servlet:
+    context-path: /api/v1
+
+api:
+  server:
+    url: http://localhost:${server.port}/
+
+
+
+spring:
+  application:
+    name: tasks
+  jpa:
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
+    properties:
+      hibernate:
+        show_sql=true
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    username: admin-db
+    password: cfkdg985hgurgh
+    url: jdbc:postgresql://localhost:5350/tasks-db
+    driverClassName: org.postgresql.Driver
+
+
+
