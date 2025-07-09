@@ -24,11 +24,9 @@ public class TaskController {
                 HttpStatus.CREATED);
     }
 
-
-    @PutMapping("/{id}/status")
-    public ResponseEntity<?> completingTask(@Valid @PathVariable @Min(value = 1, message = "The ID must be a positive number.") Long id) {
-        return new ResponseEntity<>(
-                HttpStatus.OK);
+    @GetMapping("/{taskId}")
+    public ResponseEntity<?> getTask(@Valid @PathVariable @Min(value = 1, message = "The ID must be a positive number.") Long taskId) {
+        return new ResponseEntity<>(taskService.getTask(taskId), HttpStatus.OK);
     }
 
 

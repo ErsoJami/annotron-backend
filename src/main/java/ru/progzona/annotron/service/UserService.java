@@ -18,6 +18,7 @@ import ru.progzona.annotron.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -66,6 +67,18 @@ public class UserService {
         TaskAssignEntity savedAssignment = taskAssignRepository.save(newAssignment);
 
         return toDto(savedAssignment);
+    }
+
+    @Transactional
+    public List<TaskAssignDto> getTasksForUser(Long userId) {
+
+        if (!userRepository.existsById(userId)) {
+            throw new ResourceNotFoundException("User with id=" + userId + " not found.");
+        }
+
+        return taskAssignRepository.findByUserId(userId).stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     private TaskAssignDto toDto(TaskAssignEntity entity) {

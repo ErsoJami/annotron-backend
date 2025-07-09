@@ -25,4 +25,9 @@ public class UserController {
             @Valid @RequestBody TaskAssignRequestDto requestDto) {
         return new ResponseEntity<>(userService.assignTask(userId, requestDto.taskId()), HttpStatus.OK);
     }
+
+    @GetMapping("/{userId}/tasks")
+    public ResponseEntity<?> getUserTask(@PathVariable @Min(1) Long userId) {
+        return new ResponseEntity<>(userService.getTasksForUser(userId), HttpStatus.OK);
+    }
 }
